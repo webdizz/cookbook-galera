@@ -1,5 +1,8 @@
 Description
 ===========
+
+This is cookbook for Galera configuration and installation based on https://github.com/severalnines/S9s_cookbooks/tree/master/cookbooks/galera
+
 Installs Codership's MySQL Galera cluster (http://http://www.codership.com/).
 Galera Cluster provides synchronous multi-master replication for MySQL (replication plugin).
 
