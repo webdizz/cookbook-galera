@@ -93,6 +93,7 @@ wsrep_cluster_name=<%= node['wsrep']['cluster_name'] %>
 
 # Human-readable node name (non-unique). Hostname by default.
 wsrep_node_name=<%= node['ipaddress'] %>
+bind-address=<%= node['ipaddress'] %>
 
 # Address for incoming client connections. Autodetect by default.
 #wsrep_node_incoming_address=<%= node['ipaddress'] %>
