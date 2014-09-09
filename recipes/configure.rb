@@ -43,7 +43,7 @@ end
 
 my_ip = node['ipaddress']
 
-init_host = node['galera']['init_node'] unless node['galera']['init_node'].empty?
+init_host = node['galera']['init_node']
 
 sync_host = init_host
 
@@ -66,7 +66,7 @@ end
 wsrep_cluster_address = 'gcomm://'
 if !File.exists?("#{install_flag}") && hosts != nil && hosts.length > 0
   hosts.each do |h|
-    wsrep_cluster_address += "#{h}:#{node['wsrep']['port']},"
+    wsrep_cluster_address += "#{h}:#{node['wsrep']['port']}," unless h.empty?
   end
   wsrep_cluster_address = wsrep_cluster_address[0..-2]
 end
