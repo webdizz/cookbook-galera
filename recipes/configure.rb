@@ -108,7 +108,7 @@ bash "wait-until-synced" do
     cnt=0
     until [[ "$state" == "4" || "$cnt" > 5 ]]
     do
-      state=$(#{node['mysql']['mysql_bin']} -uroot -h127.0.0.1 -e "SET wsrep_on=0; SHOW GLOBAL STATUS LIKE 'wsrep_local_state'")
+      state=$(#{node['mysql']['mysql_bin']} -uroot -hlocalhost -e "SET wsrep_on=0; SHOW GLOBAL STATUS LIKE 'wsrep_local_state'")
       state=$(echo "$state"  | tr '\n' ' ' | awk '{print $4}')
       cnt=$(($cnt + 1))
       sleep 1
@@ -120,8 +120,8 @@ end
 bash "set-wsrep-grants-mysqldump" do
   user "root"
   code <<-EOH
-#{node['mysql']['mysql_bin']} -uroot -h127.0.0.1 -e "GRANT ALL ON *.* TO '#{node['wsrep']['user']}'@'%' IDENTIFIED BY '#{node['wsrep']['password']}'"
-    #{node['mysql']['mysql_bin']} -uroot -h127.0.0.1 -e "SET wsrep_on=0; GRANT ALL ON *.* TO '#{node['wsrep']['user']}'@'127.0.0.1' IDENTIFIED BY '#{node['wsrep']['password']}'"
+#{node['mysql']['mysql_bin']} -uroot -hlocalhost -e "GRANT ALL ON *.* TO '#{node['wsrep']['user']}'@'%' IDENTIFIED BY '#{node['wsrep']['password']}'"
+    #{node['mysql']['mysql_bin']} -uroot -hlocalhost -e "SET wsrep_on=0; GRANT ALL ON *.* TO '#{node['wsrep']['user']}'@'localhost' IDENTIFIED BY '#{node['wsrep']['password']}'"
   EOH
   only_if { my_ip == init_host && (galera_config['sst_method'] == 'mysqldump') && !FileTest.exists?("#{install_flag}") }
 end
@@ -129,8 +129,8 @@ end
 bash "secure-mysql" do
   user "root"
   code <<-EOH
-#{node['mysql']['mysql_bin']} -uroot -h127.0.0.1 -e "DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE DB='test' OR DB='test\\_%'"
-    #{node['mysql']['mysql_bin']} -uroot -h127.0.0.1 -e "UPDATE mysql.user SET Password=PASSWORD('#{node['mysql']['root_password']}') WHERE User='root'; DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'); FLUSH PRIVILEGES;"
+#{node['mysql']['mysql_bin']} -uroot -hlocalhost -e "DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE DB='test' OR DB='test\\_%'"
+    #{node['mysql']['mysql_bin']} -uroot -hlocalhost -e "UPDATE mysql.user SET Password=PASSWORD('#{node['mysql']['root_password']}') WHERE User='root'; DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'); FLUSH PRIVILEGES;"
   EOH
   only_if { my_ip == init_host && (galera_config['secure'] == 'yes') && !FileTest.exists?("#{install_flag}") }
 end
