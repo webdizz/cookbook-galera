@@ -32,11 +32,17 @@ default['mysql']['conf_dir']  = '/etc'
 default['mysql']['data_dir'] = "/var/lib/mysql"
 default['mysql']['run_dir']  = "/var/run/mysqld"
 default['mysql']['pid_file'] = "#{mysql['data_dir']}/mysqld.pid"
-default['mysql']['socket']  = "#{mysql['run_dir']}/mysqld.sock"
+default['mysql']['socket']  = "#{mysql['data_dir']}/mysqld.sock"
 default['mysql']['port']    = 3306
 default['mysql']['tmp_dir']  = "/tmp"
 
 default['mysql']['tunable']['buffer_pool_size'] = "256M"
+default['mysql']['tunable']['key_buffer_size'] = "256M"
+default['mysql']['tunable']['max_allowed_packet'] = "16M"
+default['mysql']['tunable']['sort_buffer_size'] = "2M"
+default['mysql']['tunable']['read_buffer_size'] = "2M"
+default['mysql']['tunable']['read_rnd_buffer_size'] = "2M"
+default['mysql']['tunable']['join_buffer_size'] = "2M"
 default['mysql']['tunable']['flush_log_at_trx_commit'] = 2
 default['mysql']['tunable']['file_per_table'] = 1
 default['mysql']['tunable']['doublewrite'] = 0
@@ -63,6 +69,14 @@ default['mysql']['tunable']['binlog_format'] = "ROW"
 default['mysql']['tunable']['max_connections'] = 512
 default['mysql']['tunable']['thread_cache_size'] = 512
 default['mysql']['tunable']['table_open_cache'] = 1024
+default['mysql']['tunable']['table_cache'] = 128
+default['mysql']['tunable']['tmp_table_size'] = "32M"
+default['mysql']['tunable']['max_heap_table_size'] = "32M"
+default['mysql']['tunable']['bulk_insert_buffer_size'] = "32M"
+default['mysql']['tunable']['query_cache_size'] = "32M"
+default['mysql']['tunable']['open-files-limit'] = '1024'
+default['mysql']['tunable']['query_cache_limit'] = "2M"
+
 #lower-case-table-names = 0
 
 ##
@@ -125,3 +139,9 @@ default['wsrep']['sst_auth'] = default['wsrep']['user'] + ":" + default['wsrep']
 
 default['galera']['init_node'] = ''
 default['galera']['nodes'] = [default['galera']['init_node']]
+default['galera']['ipaddress'] = '10.0.0.2'
+
+default['galera']['bind_interface'] = 'eth0'
+
+
+

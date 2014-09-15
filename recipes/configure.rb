@@ -41,13 +41,13 @@ template "my.cnf" do
 #  notifies :restart, "service[mysql]", :delayed
 end
 
-my_ip = node['ipaddress']
+my_ip = node["network"]["interfaces"][node['galera']['bind_interface']]["addresses"].keys[1]
 
 init_host = node['galera']['init_node']
 
 sync_host = init_host
 
-hosts = node['galera']['nodes'] unless node['galera']['nodes'].empty?
+hosts = node['galera']['nodes'].reject! { |c| c.empty? } unless node['galera']['nodes'].empty?
 
 Chef::Log.warn "init_host = #{init_host}, my_ip = #{my_ip}, hosts = #{hosts}"
 if File.exists?("#{install_flag}") && hosts != nil && hosts.length > 0
@@ -66,7 +66,7 @@ end
 wsrep_cluster_address = 'gcomm://'
 if !File.exists?("#{install_flag}") && hosts != nil && hosts.length > 0
   hosts.each do |h|
-    wsrep_cluster_address += "#{h}:#{node['wsrep']['port']}," unless h.empty?
+    wsrep_cluster_address += "#{h}:#{node['wsrep']['port']},"
   end
   wsrep_cluster_address = wsrep_cluster_address[0..-2]
 end
