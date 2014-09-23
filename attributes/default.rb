@@ -32,7 +32,7 @@ default['mysql']['conf_dir']  = '/etc'
 default['mysql']['data_dir'] = "/var/lib/mysql"
 default['mysql']['run_dir']  = "/var/run/mysqld"
 default['mysql']['pid_file'] = "#{mysql['data_dir']}/mysqld.pid"
-default['mysql']['socket']  = "#{mysql['data_dir']}/mysqld.sock"
+default['mysql']['socket']  = "#{mysql['run_dir']}/mysqld.sock"
 default['mysql']['port']    = 3306
 default['mysql']['tmp_dir']  = "/tmp"
 
