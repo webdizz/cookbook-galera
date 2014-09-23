@@ -47,7 +47,7 @@ init_host = node['galera']['init_node']
 
 sync_host = init_host
 
-hosts = node['galera']['nodes'].reject! { |c| c.empty? } unless node['galera']['nodes'].empty?
+hosts = node['galera']['nodes'].reject { |c| c.empty? } unless node['galera']['nodes'].empty?
 
 Chef::Log.warn "init_host = #{init_host}, my_ip = #{my_ip}, hosts = #{hosts}"
 if File.exists?("#{install_flag}") && hosts != nil && hosts.length > 0
