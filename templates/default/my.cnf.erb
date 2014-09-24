@@ -70,10 +70,22 @@ memlock = 0
 sysdate_is_now = 1
 max_connections = <%= node['mysql']['tunable']['max_connections'] %>
 thread_cache_size = <%= node['mysql']['tunable']['thread_cache_size'] %>
-query_cache_type = 0
-query_cache_size = 0
+
+tmp_table_size          = <%= node['mysql']['tunable']['tmp_table_size'] %>
+max_heap_table_size     = <%= node['mysql']['tunable']['max_heap_table_size'] %>
+bulk_insert_buffer_size = <%= node['mysql']['tunable']['bulk_insert_buffer_size'] %>
+open-files-limit        = <%= node['mysql']['tunable']['open-files-limit'] %>
+
+# query cache is not supported by WSREP
+query_cache_type = <%= node['mysql']['tunable']['query_cache_type'] %>
 table_open_cache = <%= node['mysql']['tunable']['table_open_cache'] %>
 lower_case_table_names = 0
+
+#
+# * Query Cache Configuration
+#
+query_cache_limit       = <%= node['mysql']['tunable']['query_cache_limit'] %>
+query_cache_size = <%= node['mysql']['tunable']['query_cache_size'] %>
 
 ##
 ## WSREP options

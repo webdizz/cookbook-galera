@@ -69,11 +69,11 @@ default['mysql']['tunable']['binlog_format'] = "ROW"
 default['mysql']['tunable']['max_connections'] = 512
 default['mysql']['tunable']['thread_cache_size'] = 512
 default['mysql']['tunable']['table_open_cache'] = 1024
-default['mysql']['tunable']['table_cache'] = 128
 default['mysql']['tunable']['tmp_table_size'] = "32M"
 default['mysql']['tunable']['max_heap_table_size'] = "32M"
 default['mysql']['tunable']['bulk_insert_buffer_size'] = "32M"
 default['mysql']['tunable']['query_cache_size'] = "32M"
+default['mysql']['tunable']['query_cache_type'] = "1"
 default['mysql']['tunable']['open-files-limit'] = '1024'
 default['mysql']['tunable']['query_cache_limit'] = "2M"
 
